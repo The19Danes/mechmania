@@ -1,5 +1,7 @@
 # Mechmania C++ Starter Pack
 
+make a change
+
 Here's all the code you need to get started with making a bot for Mechmania in C++. Just do these steps:
 
 * Pre-Setup -- install Docker, Node, and the `mm` command line tools
