@@ -15,7 +15,7 @@ using DeathEffects = Game_Api::DeathEffects;
 #include <iostream>
 using namespace std;
 //You may add global variables and helper functions
-vector<node_id_t> starting_path = {10,16,12,22,21,20};
+vector<node_id_t> starting_path = {10,16,12,22,21,20,13,4};
 int start_path_idx = 0;
 bool bool_starting_path = 1;
 
@@ -52,6 +52,13 @@ string start_path_strats(Game_Api * api, node_id_t destination_decision){//retur
 					 return stance;
 }
 
+node_id_t medic(Game_Api * api, node_id_t currentLocation){
+
+	vector<vector <node_id_t>> shortestPathToBase = api->shortest_paths(currentLocation, 0);
+
+	return shortestPathToBase[0][0];
+}
+
 int main() {
 	Game_Api * api;
 	int my_player_num = 0;
@@ -81,7 +88,16 @@ int main() {
 					 start_path_idx++;
 				 }
 				 stance = start_path_strats(api, destination_decision);
+				 if(me._location == starting_path.back()){
+				 	bool_starting_path = false;
+				 }
 			 }
+			 if(me._health <= 35){
+			 	destination_decision = medic(api, me._location);
+			 }
+
+			 
+
 
 
 								api->submit_decision(destination_decision,stance); //CHANGE THIS
