@@ -33,7 +33,23 @@ string attack_player(node_id_t location, Game_Api * api){//counter opponent's la
 	else return "Rock"; //(p._stance == "Scissors")
 }
 
-void start_path_strats()
+string start_path_strats(Game_Api * api, node_id_t destination_decision){//return stance
+					 Player me = api->get_self();
+					 Player opponent = api->get_opponent();
+					 string stance;
+					 //stance logic
+					 if(api->has_monster(me._location)){
+						 stance = attack_monster(me._location, api);
+					 }
+					 else if(me._location == opponent._location){
+						 stance = attack_player(me._location, api);
+					 }
+					 else{//no one here, set stance for next location
+						 if(api->has_monster(destination_decision)){
+							 stance = attack_monster(destination_decision, api);//gives stance for next node if monster
+						 }
+					 }
+}
 
 int main() {
 	Game_Api * api;
@@ -58,7 +74,12 @@ int main() {
 			 string stance = "Rock";
 
 			 if(bool_starting_path){//on starting path
-
+				 	//destination logic for start
+				 destination_decision = starting_path[start_path_idx];
+				 if(me._location == starting_path[start_path_idx]){
+					 start_path_idx++;
+				 }
+				 stance = start_path_strats(api, destination_decision);
 			 }
 
 
