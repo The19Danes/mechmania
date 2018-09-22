@@ -41,14 +41,15 @@ string start_path_strats(Game_Api * api, node_id_t destination_decision){//retur
 					 if(api->has_monster(me._location)){
 						 stance = attack_monster(me._location, api);
 					 }
-					 else if(me._location == opponent._location){
-						 stance = attack_player(me._location, api);
-					 }
 					 else{//no one here, set stance for next location
 						 if(api->has_monster(destination_decision)){
 							 stance = attack_monster(destination_decision, api);//gives stance for next node if monster
 						 }
+						 if(me._location == opponent._location){//override setting for next node if opponent is on the same space
+							 stance = attack_player(me._location, api);
+						 }
 					 }
+					 return stance;
 }
 
 int main() {
